@@ -25,9 +25,6 @@ class CryptoCompare:
 				response.close()
 				response.raise_for_status()
 			except Exception:
-				if response.status_code == requests.codes.unauthorized:
-					headers.update({"Authorization": "bearer {0}".format(Reddit.auth("update"))})
-					continue
 				if not retries < max_retries:
 					raise Exception("{0} failed: Max {1} retries exceeded".format(name, config.crypto_compare["max_retries"]))
 				retries += 1
