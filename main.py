@@ -23,7 +23,7 @@ failure_counter = 0
 time_log = 0
 backend_reddit_interactions = 0
 
-mtip_max_tip_display = parsing.general.General.lovelace_to_ada(config.microtip["mtip_max_tip"])
+mtip_max_tip_display = parsing.general.General().lovelace_to_ada(config.microtip["mtip_max_tip"])
 backup_reference_time = time.time()
 
 log = services.logger.Logger()
@@ -51,7 +51,7 @@ while 1:
 
     execution_start = time.time()
 
-    last_processed_post = parsing.general.General.last_processed("read")
+    last_processed_post = parsing.general.General().last_processed("read")
 
     log.info("Before : {0}".format(last_processed_post))
 
@@ -77,7 +77,7 @@ while 1:
        	    post_name = inbox_children[child]["data"]["name"]
             read_posts.append(post_name)
 
-            parsing.general.General.last_processed("update", post_name)
+            parsing.general.General().last_processed("update", post_name)
 
             log.info("id {0}".format(post_name))
 
@@ -99,7 +99,7 @@ while 1:
                     tip = parsing.comment.Comment(inbox_children[child]["data"]).tip_extract()
                 except ValueError as e:
                     reddit_interactions += 1
-                    api.reddit.Reddit.pm(sender, system_message["title"]["tip_fail"], system_message["text"]["tip_exception"].format(e))
+                    api.reddit.Reddit().pm(sender, system_message["title"]["tip_fail"], system_message["text"]["tip_exception"].format(e))
                     continue
 
                 if tip:
@@ -109,14 +109,14 @@ while 1:
 
                     if not sender_account.user_info["exists"]:
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(sender, system_message["title"]["tip_fail"], system_message["text"]["no_account"])
+                        api.reddit.Reddit().pm(sender, system_message["title"]["tip_fail"], system_message["text"]["no_account"])
                         continue
 
                     subreddit = inbox_children[child]["data"]["subreddit_name_prefixed"]
                     parent_id = inbox_children[child]["data"]["parent_id"]
                     
                     reddit_interactions += 1
-                    parent_info = api.reddit.Reddit.info(subreddit, parent_id)
+                    parent_info = api.reddit.Reddit().info(subreddit, parent_id)
 
                     reciever = parent_info["data"]["children"][0]["data"]["author"]
 
@@ -127,7 +127,7 @@ while 1:
                             register_info = reciever_account.register()
                             reciever_account.user_info = reciever_account.lookup()
                         except Exception as e:
-                            api.reddit.Reddit.mark_read(read_posts)
+                            api.reddit.Reddit().mark_read(read_posts)
                             raise Exception(e)
                         auto_register = True
                     else:
@@ -153,12 +153,12 @@ while 1:
                             fiat_amount = sender_financials.convert_to_fiat(mtip_tip_data["final_amount"], fiat_currency)
 
                             reddit_interactions += 1
-                            api.reddit.Reddit.reply(parent_id, system_message["text"]["tip_success"].format(user_denomination + reciever, mtip_tip_data["display_amount"], fiat_symbols[fiat_currency], fiat_amount, fiat_currency))
+                            api.reddit.Reddit().reply(parent_id, system_message["text"]["tip_success"].format(user_denomination + reciever, mtip_tip_data["display_amount"], fiat_symbols[fiat_currency], fiat_amount, fiat_currency))
 
                             if auto_register:
                                 inmem_user_ids.append((reciever_account.user_info["cw_id"], register_info["mtip_cad_id"]))
                                 reddit_interactions += 1
-                                api.reddit.Reddit.pm(reciever, system_message["title"]["auto_register"], system_message["text"]["auto_register"].format(mtip_tip_data["display_amount"], register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
+                                api.reddit.Reddit().pm(reciever, system_message["title"]["auto_register"], system_message["text"]["auto_register"].format(mtip_tip_data["display_amount"], register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
                             continue
                     	else:
                     		mtip_was_possible = True
@@ -169,10 +169,10 @@ while 1:
                         if auto_register:
                             reciever_account.delete()
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(sender, system_message["title"]["tip_fail"], system_message["text"]["tip_exception"].format(e))
+                        api.reddit.Reddit().pm(sender, system_message["title"]["tip_fail"], system_message["text"]["tip_exception"].format(e))
                         continue
                     except Exception as e:
-                        api.reddit.Reddit.mark_read(read_posts)
+                        api.reddit.Reddit().mark_read(read_posts)
                         raise Exception(e)
                     
                     reply_text = system_message["text"]["tip_success"]
@@ -191,12 +191,12 @@ while 1:
                     fiat_amount = sender_financials.convert_to_fiat(tip_data["final_amount"], fiat_currency)
                     
                     reddit_interactions += 1
-                    api.reddit.Reddit.reply(parent_id, reply_text.format(user_denomination + reciever, tip_data["display_amount"], fiat_symbols[fiat_currency], fiat_amount, fiat_currency))
+                    api.reddit.Reddit().reply(parent_id, reply_text.format(user_denomination + reciever, tip_data["display_amount"], fiat_symbols[fiat_currency], fiat_amount, fiat_currency))
 
                     if auto_register:
                         inmem_user_ids.append((reciever_account.user_info["cw_id"], register_info["mtip_cad_id"]))
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(reciever, system_message["title"]["auto_register"], system_message["text"]["auto_register"].format(tip_data["display_amount"], register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
+                        api.reddit.Reddit().pm(reciever, system_message["title"]["auto_register"], system_message["text"]["auto_register"].format(tip_data["display_amount"], register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
                     continue
 
             elif inbox_children[child]["kind"] == message_types["message"]:
@@ -207,7 +207,7 @@ while 1:
                     command = parsing.message.Message(inbox_children[child]["data"]).command_extract()
                 except ValueError as e:
                     reddit_interactions += 1
-                    api.reddit.Reddit.pm(user, system_message["title"]["command_fail"], system_message["text"]["command_exception"].format(e))
+                    api.reddit.Reddit().pm(user, system_message["title"]["command_fail"], system_message["text"]["command_exception"].format(e))
                     continue
 
                 if command:
@@ -219,7 +219,7 @@ while 1:
                         
                         if user_account.user_info["exists"]:
                             reddit_interactions += 1
-                            api.reddit.Reddit.pm(user, system_message["title"]["command_fail"], system_message["text"]["already_registered"].format(user_account.user_info["cad_id"], mtip_max_tip_display, models.microtip.Microtip(user_account.user_info["cw_id"]).user_info["mtip_cad_id"]))
+                            api.reddit.Reddit().pm(user, system_message["title"]["command_fail"], system_message["text"]["already_registered"].format(user_account.user_info["cad_id"], mtip_max_tip_display, models.microtip.Microtip(user_account.user_info["cw_id"]).user_info["mtip_cad_id"]))
                             continue
 
                         register_info = user_account.register()
@@ -227,12 +227,12 @@ while 1:
 
                         inmem_user_ids.append((user_account.user_info["cw_id"], register_info["mtip_cad_id"]))
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(user, system_message["title"]["normal_register"], system_message["text"]["register_success"].format(register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
+                        api.reddit.Reddit().pm(user, system_message["title"]["normal_register"], system_message["text"]["register_success"].format(register_info["cad_id"], mtip_max_tip_display, register_info["mtip_cad_id"]))
                         continue
 
                     if not user_account.user_info["exists"]:
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(user, system_message["title"]["command_fail"], system_message["text"]["no_account"])
+                        api.reddit.Reddit().pm(user, system_message["title"]["command_fail"], system_message["text"]["no_account"])
                         continue
                     
                     if command["verified_command"] == supported_commands["standard_withdrawal"]:
@@ -242,22 +242,22 @@ while 1:
                         try:
                             ada_amount = user_financials.convert_to_ada(command["verified_amount"], command["currency_type"])
                         except Exception as e:
-                            api.reddit.Reddit.mark_read(read_posts)
+                            api.reddit.Reddit().mark_read(read_posts)
                             raise Exception(e)
                         try:
                             user_account.withdrawal(ada_amount, command["verified_address"])
                         except ValueError as e:
                             reddit_interactions += 1
-                            api.reddit.Reddit.pm(user, system_message["title"]["withdrawal_fail"], system_message["text"]["command_exception"].format(e))
+                            api.reddit.Reddit().pm(user, system_message["title"]["withdrawal_fail"], system_message["text"]["command_exception"].format(e))
                             continue
                         except Exception as e:
-                            api.reddit.Reddit.mark_read(read_posts)
+                            api.reddit.Reddit().mark_read(read_posts)
                             raise Exception(e)
 
-                        display_balance = parsing.general.General.lovelace_to_ada(ada_amount)
+                        display_balance = parsing.general.General().lovelace_to_ada(ada_amount)
 
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(user, system_message["title"]["withdrawal_success"], system_message["text"]["withdrawal_success"].format(display_balance, user_account.user_info["cad_id"], command["verified_address"]))
+                        api.reddit.Reddit().pm(user, system_message["title"]["withdrawal_success"], system_message["text"]["withdrawal_success"].format(display_balance, user_account.user_info["cad_id"], command["verified_address"]))
                         continue
 
                     elif command["verified_command"] == supported_commands["mtip_withdrawal"]:
@@ -267,7 +267,7 @@ while 1:
                     	try:
                     		ada_amount = user_financials.convert_to_ada(command["verified_amount"], command["currency_type"])
                     	except Exception as e:
-                    		api.reddit.Reddit.mark_read(read_posts)
+                    		api.reddit.Reddit().mark_read(read_posts)
                     		raise Exception(e)
 
                     	user_mtip = models.microtip.Microtip(user_account.user_info["cw_id"])
@@ -276,23 +276,23 @@ while 1:
                     		user_mtip.prepare_withdrawal(ada_amount, command["verified_address"])
                     	except ValueError as e:
                     		reddit_interactions += 1
-                    		api.reddit.Reddit.pm(user, system_message["title"]["withdrawal_fail"], system_message["text"]["command_exception"].format(e))
+                    		api.reddit.Reddit().pm(user, system_message["title"]["withdrawal_fail"], system_message["text"]["command_exception"].format(e))
                     		continue  
                     	try:
                     		withdrawal_info = models.user.User(config.microtip["master_mtip_wallet_name"]).withdrawal(ada_amount, command["verified_address"])
                     	except Exception as e:
-                    		api.reddit.Reddit.mark_read(read_posts)
+                    		api.reddit.Reddit().mark_read(read_posts)
                     		raise Exception(e)
                     	try:
                     		user_mtip.finalize_withdrawal(withdrawal_info["fee"])
                     	except Exception as e:
-                    		api.reddit.Reddit.mark_read(read_posts)
+                    		api.reddit.Reddit().mark_read(read_posts)
                     		raise Exception(e)
 
-                    	display_balance = parsing.general.General.lovelace_to_ada(ada_amount)
+                    	display_balance = parsing.general.General().lovelace_to_ada(ada_amount)
 
                     	reddit_interactions += 1
-                    	api.reddit.Reddit.pm(user, system_message["title"]["withdrawal_success"], system_message["text"]["microtip_withdrawal_success"].format(display_balance, user_mtip.user_info["mtip_cad_id"], command["verified_address"]))
+                    	api.reddit.Reddit().pm(user, system_message["title"]["withdrawal_success"], system_message["text"]["microtip_withdrawal_success"].format(display_balance, user_mtip.user_info["mtip_cad_id"], command["verified_address"]))
                     	continue
                         
                     elif command["verified_command"] == supported_commands["balance"]:
@@ -300,26 +300,26 @@ while 1:
                         try:
                             standard_balance = user_account.balance()
                         except Exception as e:
-                            api.reddit.Reddit.mark_read(read_posts)
+                            api.reddit.Reddit().mark_read(read_posts)
                             raise Exception(e)
 
                         mtip_balance = models.microtip.Microtip(user_account.user_info["cw_id"]).balance()
 
-                        standard_display_balance = parsing.general.General.lovelace_to_ada(standard_balance)
-                        mtip_display_balance = parsing.general.General.lovelace_to_ada(mtip_balance)
+                        standard_display_balance = parsing.general.General().lovelace_to_ada(standard_balance)
+                        mtip_display_balance = parsing.general.General().lovelace_to_ada(mtip_balance)
 
                         reddit_interactions += 1
-                        api.reddit.Reddit.pm(user, system_message["title"]["balance"], system_message["text"]["balance"].format(standard_display_balance, mtip_display_balance))
+                        api.reddit.Reddit().pm(user, system_message["title"]["balance"], system_message["text"]["balance"].format(standard_display_balance, mtip_display_balance))
                         continue
 
                     elif command["verified_command"] == supported_commands["address"]:
 
                     	reddit_interactions += 1
-                    	api.reddit.Reddit.pm(user, system_message["title"]["address"], system_message["text"]["address"].format(user_account.user_info["cad_id"], mtip_max_tip_display, models.microtip.Microtip(user_account.user_info["cw_id"]).user_info["mtip_cad_id"]))
+                    	api.reddit.Reddit().pm(user, system_message["title"]["address"], system_message["text"]["address"].format(user_account.user_info["cad_id"], mtip_max_tip_display, models.microtip.Microtip(user_account.user_info["cw_id"]).user_info["mtip_cad_id"]))
                     	continue
                 else:
                     reddit_interactions +=1
-                    api.reddit.Reddit.pm(user, system_message["title"]["command_not_understood"], system_message["text"]["command_not_understood"])
+                    api.reddit.Reddit().pm(user, system_message["title"]["command_not_understood"], system_message["text"]["command_not_understood"])
                     continue
 
     backend_reddit_interactions = 0
@@ -327,7 +327,7 @@ while 1:
     if read_posts:
         
         backend_reddit_interactions += 1
-        api.reddit.Reddit.mark_read(read_posts)
+        api.reddit.Reddit().mark_read(read_posts)
 
     if execution_start > (backup_reference_time + config.backup["backup_interval"]):
         
@@ -341,10 +341,10 @@ while 1:
 
             log.info("sending deposit notification")
 
-            desposit_display_amount = parsing.general.General.lovelace_to_ada(deposit_info["deposit_amount"])
+            desposit_display_amount = parsing.general.General().lovelace_to_ada(deposit_info["deposit_amount"])
 
             backend_reddit_interactions += 1
-            api.reddit.Reddit.pm(deposit_info["username"], system_message["title"]["deposit_recieved"], system_message["text"]["deposit_recieved"].format(desposit_display_amount, deposit_info["wallet"]))
+            api.reddit.Reddit().pm(deposit_info["username"], system_message["title"]["deposit_recieved"], system_message["text"]["deposit_recieved"].format(desposit_display_amount, deposit_info["wallet"]))
     
         deposit_notifier_task = services.depositnotifier.DepositNotifier()
         deposit_notifier_pool.map_async(deposit_notifier_task.run_scan, inmem_user_ids, callback=deposit_notifier_task.gather_usernames)
