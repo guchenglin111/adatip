@@ -1,0 +1,36 @@
+{
+    "title": {
+        "tip_fail" : "Tip Unsuccessful",
+        "normal_register" : "Registration Successful",
+        "auto_register" : "You've got ADA!",
+        "command_fail" : "Command Unsuccessful",
+        "withdrawal_success" : "Withdrawal Processing",
+        "withdrawal_fail" : "Withdrawal Unsuccessful",
+        "balance" : "Balance Report",
+        "delete_success" : "Deletion Successful",
+        "delete_fail" : "Deletion Unsuccessful",
+        "address" : "Your Adatip Addresses",
+        "command_not_understood" : "Command Not Understood",
+        "deposit_recieved" : "Deposit Recieved!"
+    },
+    "text": {
+        "no_account" : "No account found. Please register an account by sending /u/adatip a private message with +register as the subject and anything in the message. If you believe this was in error, contact /u/geitir",
+        "tip_exception" : "Your tip was reported unsuccessful for the following reason: {0}",
+        "tip_success" : "{0}, you've recieved `{1} ADA ({2}{3} {4})`\n***\n\n\n^^[How\u00a0to\u00a0use](https://www.reddit.com/r/adatip/wiki/index) ^^| ^^[What\u00a0is\u00a0ADA/Cardano?](https://www.cardanohub.org/en/home/)",
+        "command_exception" : "Your command was reported unsuccessful for the following reason: {0}",
+        "register_success" : "This is your unique standard (on-chain with fees, no maximum amount per tip) deposit address:\n\n{0}\n\nThis is your unique microtip (off-chain, no fees, maximum {1} ADA per tip) deposit address:\n\n{2}\n\nRemember, only send ADA coin to these addresses!!!",
+        "already_registered" : "You are already registered. Your standard (on-chain with fees, no maximum amount per tip) deposit address is:\n\n{0}\n\nYour microtip (off-chain, no fees, maximum {1} ADA per tip) deposit address is:\n\n{2}\n\nRemember, only send ADA coin to these addresses!!!",
+        "auto_register" : "You've been tipped {0} ADA by a member of the Cardano community. An account has automatically been created for you to accept this tip. These are your unique addresses which are used as an identifier and for deposits:\n\nYour standard (on-chain with fees, no maximum amount per tip) deposit address is:\n\n{1}\n\nYour microtip (off-chain, no fees, maximum {2} ADA per tip) deposit address is:\n\n{3}\n\nRemember, only send ADA coin to these addresses!!!\n\n To learn how to withdrawal the tip you recieved as well as use other commands, please visit the adatip [wiki](https://www.reddit.com/r/adatip/wiki/index)",
+        "withdrawal_success" : "Withdrawal of {0} ADA from wallet address:\n\n{1}\n\nto address:\n\n{2}\n\n is now processing and should send momentarily.\n\nIf not enough balance remained for transaction fee, the amount required was taken from withdrawal amount",
+        "microtip_withdrawal_success" : "Withdrawal of {0} ADA from wallet address:\n\n{1}\n\nto address:\n\n{2}\n\n is now processing and should send momentarily.",
+    	"balance" : "Your current reported balance from your standard wallet is: {0} ADA\n\nYour current reported balance from your microtip wallet is: {1} ADA",
+    	"delete_success" : "This is confirmation that your wallet with deposit address:\n\n{0}\n\n has been deleted.",
+        "address" : "Your standard (on-chain with fees, no maximum amount per tip) deposit address is:\n\n{0}\n\nYour microtip (off-chain, no fees, maximum {1} ADA per tip) deposit address is:\n\n{2}\n\nRemember, only send ADA coin to these addresses!!!",
+        "command_not_understood" : "Sorry your command could not be understood. Please visit the adatip [wiki](https://www.reddit.com/r/adatip/wiki/index) for information on how to use the bot.",
+        "deposit_recieved" : "A deposit of {0} ADA to your {1} wallet has been recieved and will be available for tipping in the next few minutes."
+    },
+    "special": {
+    	"fee_from_amount" : "\n\n^^*Portion\u00a0of\u00a0transfer\u00a0fee\u00a0had\u00a0to\u00a0be\u00a0taken\u00a0from\u00a0amount\u00a0specified\u00a0as\u00a0remaining\u00a0wallet\u00a0balance\u00a0would've\u00a0been\u00a0insufficient\u00a0",
+        "mtip_possible" : "\n\n\u00a0^^This\u00a0transaction\u00a0could\u00a0have\u00a0been\u00a0sent\u00a0off-chain\u00a0with\u00a0zero\u00a0fees\u00a0if\u00a0you\u00a0had\u00a0a\u00a0microtip\u00a0balance\u00a0\n\n"
+    }
+}
