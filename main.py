@@ -57,7 +57,7 @@ while 1:
 
     try:
         inbox = api.reddit.Reddit().inbox(last_processed_post)
-    except:
+    except Exception:
         if failure_counter < config.main["max_failure_multiplier"]:
             failure_counter += 1
         log.info("Inbox get failed. Is reddit mad at us? sleeping it off ({0})".format(config.main["failure_sleep_interval"]*failure_counter))
