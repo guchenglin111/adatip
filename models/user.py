@@ -152,7 +152,7 @@ class User(object):
 		udbc = udb.cursor()
 
 		try:
-			phrase = crypto.mnemonic.gen()
+			phrase = crypto.mnemonic.Mnemonic().gen()
 		except Exception as e:
 			raise Exception("{0} failed: {1}".format(name, e))
 
