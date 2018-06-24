@@ -16,7 +16,7 @@
     "text": {
         "no_account" : "No account found. Please register an account by sending /u/adatip a private message with +register as the subject and anything in the message. If you believe this was in error, contact /u/geitir",
         "tip_exception" : "Your tip was reported unsuccessful for the following reason: {0}",
-        "tip_success" : "{0}, you've recieved `{1} ADA ({2}{3} {4})`\n***\n\n\n^^[How\u00a0to\u00a0use](https://www.reddit.com/r/adatip/wiki/index) ^^| ^^[What\u00a0is\u00a0ADA/Cardano?](https://www.cardanohub.org/en/home/)",
+        "tip_success" : "{0}, you've recieved `{1} ADA ({2}{3} {4})`\n***\n\n\n^^[How\u00a0to\u00a0use](https://www.reddit.com/r/adatip/wiki/index) ^^| ^^[What\u00a0is\u00a0ADA/Cardano?](https://www.cardano.org/en/home/)",
         "command_exception" : "Your command was reported unsuccessful for the following reason: {0}",
         "register_success" : "This is your unique standard (on-chain with fees, no maximum amount per tip) deposit address:\n\n{0}\n\nThis is your unique microtip (off-chain, no fees, maximum {1} ADA per tip) deposit address:\n\n{2}\n\nRemember, only send ADA coin to these addresses!!!",
         "already_registered" : "You are already registered. Your standard (on-chain with fees, no maximum amount per tip) deposit address is:\n\n{0}\n\nYour microtip (off-chain, no fees, maximum {1} ADA per tip) deposit address is:\n\n{2}\n\nRemember, only send ADA coin to these addresses!!!",
