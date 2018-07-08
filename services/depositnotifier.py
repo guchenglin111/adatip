@@ -26,7 +26,7 @@ class DepositNotifier(object):
 		self.last_transaction_time = int(self.__last_transaction_time("read"))
 		self.transaction_time_accepted = 0
 
-		self.timeout = config.cardano_node["general_timeout"]
+		self.timeout = config.deposit_notifier["general_timeout"]
 		self.response_success = "Right"
 		self.response_error = "Left"
 		self.verify = False
@@ -81,7 +81,7 @@ class DepositNotifier(object):
 		except Exception as e:
 			raise Exception("{0} failed: {1}".format(name, e))
 		
-		if not response.json()[self.response_success]:
+		if not self.response_success in response.json():
 			raise Exception("{0} failed: {1}".format(name, response.json()[self.response_error]))
 
 		transactions = response.json()[self.response_success][0]
@@ -107,7 +107,7 @@ class DepositNotifier(object):
 		except Exception as e:
 			raise Exception("{0} failed: {1}".format(name, e))
 
-		if not response.json()[self.response_success]:
+		if not self.response_success in response.json():
 			raise Exception("{0} failed: {1}".format(name, response.json()[self.response_error]))
 
 		transactions = response.json()[self.response_success][0]

@@ -74,7 +74,7 @@ class Microtip(object):
 		except Exception as e:
 			raise Exception("{0} failed: {1}".format(name, e))
 
-		if not response.json()[self.response_success]:
+		if not self.response_success in response.json():
 			raise Exception("{0} failed: {1}".format(name, response.json()[self.response_error]))
 
 		return (response.json()[self.response_success]["cadId"])

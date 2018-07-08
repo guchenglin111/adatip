@@ -51,6 +51,7 @@ microtip = dict(
 deposit_notifier = dict(
 	mtip_read_transaction_limit = 3, # how many transactions to lookup to check for new deposits (mtip wallet, user unique address specific)
 	standard_read_transaction_limit = 3, # how many transactions to lookup to check for new deposits (user individual wallet)
+	general_timeout = 60,
 	)
 
 logging = dict(

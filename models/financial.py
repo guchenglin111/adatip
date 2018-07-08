@@ -88,7 +88,7 @@ class Financial(object):
 			raise Exception("{0} failed: {1}".format(name, e))
 		response.close()
 
-		if not response.json()[self.response_success]:
+		if not self.response_success in response.json():
 			raise ValueError("{0} failed: Address is not valid".format(name))
 		else:
 			return address
